@@ -27,7 +27,7 @@ git clone --branch feature-air https://github.com/habbo-cc/habbo-client-cc.git C
 
 | Branch | App name | Client branch | Icons | Notes |
 | --- | --- | --- | --- | --- |
-| `main` | NGHWin | `habbo-cc:ngh-air` | Custom NGH pixel-art | NGH-flavoured build with NGH theming via the underlying client branch |
+| `ngh` | NGHWin | `habbo-cc:ngh-air` | Custom NGH pixel-art | NGH-flavoured build with NGH theming via the underlying client branch |
 | `habbo` (this branch) | Habbo | `habbo-cc:feature-air` | Official Habbo icons | Neutral build without NGH-specific catalog/window-manager theming |
 
 ---
