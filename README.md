@@ -1,19 +1,21 @@
 # NGHWin
 
-NGHWin is the Windows desktop build of the **NextGenHabbo Flash client**, packaged as a Harman AIR captive-runtime app so the hotel runs without a browser Flash plugin.
+A Windows desktop build of the **NextGenHabbo Flash client** packaged as a Harman AIR captive-runtime app, so the hotel runs without a browser Flash plugin.
 
-The important design choice is that NGHWin launches the Habbo client as the AIR root SWF (`HabboAir.swf`) rather than wrapping the browser `Habbo.swf`. This matches the loading model used by official HabboWin.
+The window title, icon, and bundle naming are NGH-flavoured (custom pixel-art icon, NGHWin name). The AIR application ID is `org.ngh.client` — coexists cleanly with the official Sulake client on the same machine and with the sibling [`habbo`](https://github.com/Harmonicrain/habboair-win/tree/habbo) branch's build.
 
 ---
 
 ## Compatible client source
 
-This project compiles **exclusively** against the `ngh-air` branch of `habbo-cc/habbo-client-cc`. The AIR root class (`HabboAir.as`), the `HabboWebTools` parameter bridge, the AIR-aware login dialog, and a handful of other AIR-specific patches **only exist on that branch**. Compiling against any other branch will fail.
+This project compiles **exclusively** against the `ngh-air` branch of `habbo-cc/habbo-client-cc`. The AIR root class (`HabboAir.as`), the `HabboWebTools` parameter bridge, the AIR-aware login dialog and a handful of other AIR-specific patches **only exist on that branch**. Compiling against any other branch will fail.
 
 - Branch: <https://github.com/habbo-cc/habbo-client-cc/tree/ngh-air>
 - Pinned commit: [`ee11459a5`](https://github.com/habbo-cc/habbo-client-cc/commit/ee11459a5) — *Add AIR desktop support (HabboAir root SWF + companion fixes)*
 
-Clone it like this (the `build.bat` defaults to `C:\habbo\client\habbo-client-clean`):
+This branch carries the AIR patches on top of the NGH-themed client (catalogue / window-manager re-skin from commit `8177e6b5`). The sibling `feature-air` branch carries the same AIR commit on top of plain `feature-branch`, without that re-skin.
+
+Clone the client like this (the `build.bat` defaults to `C:\habbo\client\habbo-client-clean`):
 
 ```bat
 git clone --branch ngh-air https://github.com/habbo-cc/habbo-client-cc.git C:\habbo\client\habbo-client-clean
@@ -34,34 +36,30 @@ git clone --branch ngh-air https://github.com/habbo-cc/habbo-client-cc.git C:\ha
 
 ```
 NGHWin/
-├── README.md            # this file
-├── build.bat            # compile + package script (compile|package|package-mac|run|cert|clean)
-├── application.xml      # NOT present at repo root — lives in build/
+├── README.md
+├── build.bat            # compile + package script (compile|package|run|cert|clean)
 ├── config.ini           # runtime endpoint/host/port config (staged into bundle)
 ├── cert.p12             # self-signed signing cert (replace before redistributing)
-├── icons/               # source PNGs for the AIR descriptor icons (16/32/48/128)
+├── icons/               # 16/32/48/128 NGH pixel-art icons + source.png
 ├── build/               # staged AIR files: descriptor + HabboAir.swf + local_include
 └── NGHWinBundle/        # packaged captive-runtime output: NGHWin.exe + Adobe AIR/ + assets
 ```
 
-The companion Habbo client lives at `C:\habbo\client\habbo-client-clean` and is **not** part of this repo; override its location with the `CLIENT_DIR` env var before running `build.bat` if you have it elsewhere.
+The companion Habbo client lives at `C:\habbo\client\habbo-client-clean` and is **not** part of this repo; override with the `CLIENT_DIR` env var if you have it elsewhere.
 
 ---
 
 ## Prerequisites
 
-Install these once. All paths are the defaults `build.bat` expects — override via env vars if you put them elsewhere.
-
 | Tool | Where | Override env var |
 | --- | --- | --- |
 | Harman AIR SDK 51.3.1 (Windows) | `C:\harman-air\AIRSDK_51.3.1` | `AIR_HOME` |
-| Harman AIR SDK 51.3.1 (macOS, optional) | `C:\harman-air\AIRSDK_51.3.1_mac` | `AIR_HOME_MAC` |
 | Java JDK 21 | `C:\Program Files\Java\jdk-21` | `JAVA_HOME` |
 | Apache Flex SDK | `C:\flex` | (used implicitly by the clean-client npm tool) |
 | habbo-client-cc `ngh-air` checkout | `C:\habbo\client\habbo-client-clean` | `CLIENT_DIR` |
 | Gordon production assets | `C:\habbo\ngh\gordon\PRODUCTION-201611291003-338511768` | `GORDON_DIR` |
 
-Get the AIR SDK from <https://airsdk.harman.com>. The macOS SDK is only needed if you build the macOS `.app` (target `package-mac`).
+Get the AIR SDK from <https://airsdk.harman.com>.
 
 The Gordon directory must contain the six core room SWFs that get bundled locally:
 
@@ -72,7 +70,7 @@ The Gordon directory must contain the six core room SWFs that get bundled locall
 - `TileCursor.swf`
 - `SelectionArrow.swf`
 
-These are the files the AIR build resolves as `app:/local_include/<name>.swf` at runtime (see [Local Include Assets](#local-include-assets)).
+These are the files the AIR build resolves as `app:/local_include/<name>.swf` at runtime.
 
 You also need the clean-client's Node.js tooling working — `npm install` inside `C:\habbo\client\habbo-client-clean` once is enough.
 
@@ -91,7 +89,6 @@ Targets:
 ```bat
 build.bat compile       # compile HabboAir.swf + stage local_include + config.ini + icons
 build.bat package       # package the Windows captive-runtime bundle into NGHWinBundle\
-build.bat package-mac   # package a macOS .app bundle (requires AIR_HOME_MAC)
 build.bat run           # run with ADL straight from build\ (dev mode, no packaging)
 build.bat cert          # one-time: regenerate cert.p12 if you deleted it
 build.bat clean         # remove build/ and bundle/ outputs
@@ -194,7 +191,7 @@ furnidata.load.url
 flash.client.url
 ```
 
-The shipped `config.ini` defaults to a local-dev setup pointing at `http://localhost/ngh`. Change `base.url`, `connection.info.host`, and `connection.info.port` for your hotel.
+The shipped `config.ini` defaults to `127.0.0.1:3000,3001` — change `base.url`, `connection.info.host`, and `connection.info.port` for your hotel.
 
 ---
 
@@ -269,7 +266,7 @@ It captures `onInitConnection`, `onAuthenticationOK`, `onGenericError`, `onConne
 ## Toolchain summary
 
 - Main client compiler: Apache Flex at `C:\flex`, invoked via the clean-client's `npm run tool -- build` wrapper.
-- AIR SDK: Harman AIR SDK 51.3.1 (Windows) and optionally the matching macOS SDK.
+- AIR SDK: Harman AIR SDK 51.3.1 (Windows).
 - AIR compile-time library: `<AIR_HOME>\frameworks\libs\air\airglobal.swc` (passed as `-external-library-path+=` to amxmlc).
 - AIR packager / runtime: `adt.bat` / `adl.exe` from the Harman SDK.
 - Java: JDK 21.
@@ -280,7 +277,7 @@ Do **not** compile the full Habbo client tree directly with Harman `amxmlc.bat` 
 
 ## Distribution note
 
-The bundled `cert.p12` is **self-signed**. Replace it with a real signing certificate (and re-package) before distributing outside local testing. To generate a fresh self-signed cert:
+The bundled `cert.p12` is **self-signed** (CN = "NGHWin"). Replace with a real signing certificate (and re-package) before distributing outside local testing. To generate a fresh self-signed cert:
 
 ```bat
 build.bat cert
