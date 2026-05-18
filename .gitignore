@@ -1,0 +1,9 @@
+# Per-user debug log written by HabboAir at runtime
+debug.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
