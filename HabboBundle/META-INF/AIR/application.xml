@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <application xmlns="http://ns.adobe.com/air/application/51.3">
-    <id>org.ngh.client</id>
-    <filename>NGHWin</filename>
-    <name>NGHWin</name>
+    <id>com.habbo.air</id>
+    <filename>Habbo</filename>
+    <name>Habbo</name>
     <versionLabel>0.1.0</versionLabel>
     <versionNumber>0.1.0</versionNumber>
-    <copyright>NGH 2026</copyright>
+    <copyright>Habbo 2026</copyright>
     <allowMultipleInstances>true</allowMultipleInstances>
     <initialWindow>
         <content>HabboAir.swf</content>
-        <title>NGHWin</title>
+        <title>Habbo</title>
         <visible>true</visible>
         <fullScreen>false</fullScreen>
         <autoOrients>true</autoOrients>
@@ -28,6 +28,6 @@
         <image128x128>icons/icon-128.png</image128x128>
     </icon>
     <supportedProfiles>desktop extendedDesktop</supportedProfiles>
-    <installFolder>NGH</installFolder>
-    <programMenuFolder>NGH</programMenuFolder>
+    <installFolder>Habbo</installFolder>
+    <programMenuFolder>Habbo</programMenuFolder>
 </application>

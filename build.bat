@@ -1,5 +1,5 @@
 @echo off
-REM NGHWin build script
+REM Habbo (AIR desktop build) build script
 REM Builds the AIR-root HabboAir.swf and packages it as a captive-runtime app.
 REM Override with: set AIR_HOME=path\to\sdk
 
@@ -24,7 +24,7 @@ set "LOCAL_INCLUDE_DIR=%BUILD_DIR%\local_include"
 set "DESCRIPTOR=%BUILD_DIR%\application.xml"
 set "CERT=%PROJECT_DIR%cert.p12"
 set "CERT_PASS=nghwin"
-set "BUNDLE_DIR=%PROJECT_DIR%NGHWinBundle"
+set "BUNDLE_DIR=%PROJECT_DIR%HabboBundle"
 
 if "%1"=="" goto :all
 if /I "%1"=="compile" goto :compile
@@ -109,7 +109,7 @@ if exist "%BUNDLE_DIR%" (
     rmdir /s /q "%BUNDLE_DIR%"
     if exist "%BUNDLE_DIR%" (
         echo ERROR: Could not remove existing bundle at %BUNDLE_DIR%.
-        echo Close NGHWin.exe or any Explorer window using that folder, then run build.bat again.
+        echo Close Habbo.exe or any Explorer window using that folder, then run build.bat again.
         exit /b 1
     )
 )
@@ -119,7 +119,7 @@ set "PACKAGE_EXIT=%ERRORLEVEL%"
 if not "%PACKAGE_EXIT%"=="0" exit /b %PACKAGE_EXIT%
 echo.
 echo Bundle written to: %BUNDLE_DIR%
-echo Run: %BUNDLE_DIR%\NGHWin.exe
+echo Run: %BUNDLE_DIR%\Habbo.exe
 exit /b 0
 
 :clean
@@ -131,7 +131,7 @@ if exist "%LOCAL_INCLUDE_DIR%" rmdir /s /q "%LOCAL_INCLUDE_DIR%"
 if exist "%BUNDLE_DIR%" rmdir /s /q "%BUNDLE_DIR%"
 if exist "%BUNDLE_DIR%" (
     echo ERROR: Could not remove existing bundle at %BUNDLE_DIR%.
-    echo Close NGHWin.exe or any Explorer window using that folder, then run clean again.
+    echo Close Habbo.exe or any Explorer window using that folder, then run clean again.
     exit /b 1
 )
 echo Cleaned build artifacts.
