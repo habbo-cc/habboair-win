@@ -13,7 +13,7 @@ This project compiles **exclusively** against the `feature-air` branch of `habbo
 - Branch: <https://github.com/habbo-cc/habbo-client-cc/tree/feature-air>
 - Pinned commit: [`0c0f1c4db`](https://github.com/habbo-cc/habbo-client-cc/commit/0c0f1c4db) — *Add AIR desktop support (HabboAir root SWF + companion fixes)*
 
-This is the same AIR commit that lives on the `ngh-air` branch (`ee11459a5`), cherry-picked onto `feature-branch`. It carries every AIR change but none of the NGH-specific theming.
+This branch carries the AIR patches on top of plain `feature-branch` (without the NGH catalogue / window-manager re-skin from commit `8177e6b5`). The sibling `ngh-air` branch carries the same AIR commit on top of the NGH-themed client.
 
 Clone the client like this (the `build.bat` defaults to `C:\habbo\client\habbo-client-clean`):
 
@@ -277,7 +277,7 @@ Do **not** compile the full Habbo client tree directly with Harman `amxmlc.bat` 
 
 ## Distribution note
 
-The bundled `cert.p12` is **self-signed** and inherited from the `main` (NGHWin) branch — the certificate's internal CN still says "NGHWin" because regenerating it would invalidate the bundled signature. This doesn't affect runtime; the cert's display name is only visible in Windows' signature-properties dialog. Replace with a real signing certificate (and re-package) before distributing outside local testing. To generate a fresh self-signed cert:
+The bundled `cert.p12` is **self-signed** (CN = "NGHWin", inherited from the `ngh` branch — re-used here to avoid invalidating the bundled signature). Replace with a real signing certificate (and re-package) before distributing outside local testing. To generate a fresh self-signed cert:
 
 ```bat
 build.bat cert
